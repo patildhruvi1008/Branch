@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="m-0"><i class="fas fa-check-circle me-2"></i>Prediction Result</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <i class="fas fa-graduation-cap fa-4x text-primary mb-3"></i>
+                    <h2 class="mb-4">Recommended Branch</h2>
+                    <div class="alert alert-success p-4 mb-4">
+                        <h3 class="mb-0">{{ result.branch }}</h3>
+                    </div>
+                </div>
+                
+                <h4 class="mb-3"><i class="fas fa-info-circle me-2"></i>Prediction Details</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th width="40%">Exam Type</th>
+                                <td>{{ result.exam_type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Category</th>
+                                <td>{{ result.category }}</td>
+                            </tr>
+                            <tr>
+                                <th>Exam Score</th>
+                                <td>{{ result.exam_score }} / {% if result.exam_type == 'JEE' %}300{% else %}200{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th>10th Marks</th>
+                                <td>{{ result.tenth_marks }}%</td>
+                            </tr>
+                            <tr>
+                                <th>12th Marks</th>
+                                <td>{{ result.twelfth_marks }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <h5><i class="fas fa-info-circle me-2"></i>What Next?</h5>
+                    <p class="mb-0">This prediction is based on historical data and should be used as guidance. Consider consulting with academic advisors for a more personalized recommendation.</p>
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Make Another Prediction
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

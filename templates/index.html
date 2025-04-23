@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="m-0"><i class="fas fa-user-graduate me-2"></i>Engineering Branch Prediction</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead">This tool predicts suitable engineering branches based on your exam scores and academic background using machine learning.</p>
+                
+                <form id="predictionForm" action="{{ url_for('predict') }}" method="post" class="needs-validation" novalidate>
+                    <!-- Exam Type Selection -->
+                    <div class="mb-3">
+                        <label for="exam_type" class="form-label">Exam Type <span class="text-danger">*</span></label>
+                        <select class="form-select" id="exam_type" name="exam_type" required>
+                            <option value="" selected disabled>Select Exam Type</option>
+                            <option value="JEE">JEE (out of 300)</option>
+                            <option value="MHT-CET">MHT-CET (out of 200)</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an exam type.</div>
+                    </div>
+                    
+                    <!-- Student Category -->
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Student Category <span class="text-danger">*</span></label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="" selected disabled>Select Category</option>
+                            {% for category in categories %}
+                                <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                            {% if not categories %}
+                                <option value="General">General</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            {% endif %}
+                        </select>
+                        <div class="invalid-feedback">Please select your category.</div>
+                    </div>
+                    
+                    <!-- Exam Score -->
+                    <div class="mb-3">
+                        <label for="exam_score" class="form-label">
+                            <span id="exam_label">Exam Score</span> <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" class="form-control" id="exam_score" name="exam_score" 
+                               min="0" max="300" step="0.01" required placeholder="Enter your exam score">
+                        <div class="form-text" id="score_hint">
+                            Score should be between 0 and 300
+                        </div>
+                        <div class="invalid-feedback" id="score_feedback">
+                            Please enter a valid score.
+                        </div>
+                    </div>
+                    
+                    <!-- 10th Marks -->
+                    <div class="mb-3">
+                        <label for="tenth_marks" class="form-label">10th Marks (out of 100) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="tenth_marks" name="tenth_marks" 
+                               min="0" max="100" step="0.01" required placeholder="Enter your 10th percentage">
+                        <div class="invalid-feedback">
+                            Please enter a valid percentage between 0 and 100.
+                        </div>
+                    </div>
+                    
+                    <!-- 12th Marks -->
+                    <div class="mb-3">
+                        <label for="twelfth_marks" class="form-label">12th Marks (out of 100) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="twelfth_marks" name="twelfth_marks" 
+                               min="0" max="100" step="0.01" required placeholder="Enter your 12th percentage">
+                        <div class="invalid-feedback">
+                            Please enter a valid percentage between 0 and 100.
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search me-2"></i>Predict Branch
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4 shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="m-0"><i class="fas fa-info-circle me-2"></i>Cutoff Requirements</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Exam Type</th>
+                                <th>Category</th>
+                                <th>Minimum Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>JEE</td>
+                                <td>General</td>
+                                <td>90+</td>
+                            </tr>
+                            <tr>
+                                <td>JEE</td>
+                                <td>Reserved Categories</td>
+                                <td>Any score qualifies</td>
+                            </tr>
+                            <tr>
+                                <td>MHT-CET</td>
+                                <td>General</td>
+                                <td>90+</td>
+                            </tr>
+                            <tr>
+                                <td>MHT-CET</td>
+                                <td>Reserved Categories</td>
+                                <td>80+</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
